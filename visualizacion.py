@@ -40,6 +40,7 @@ def mostrar_categorico():
 
 ventana = tk.Tk()
 ventana.title("Analisis de datos")
+
 boton_summary = tk.Button(ventana, text= "Resumen", command =informacion)
 boton_summary.grid(row=0, column=0)
 
