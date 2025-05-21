@@ -9,6 +9,7 @@ from tkinter.scrolledtext import ScrolledText
 from tkinter import messagebox, simpledialog, filedialog
 from PIL import ImageTk 
 data = pd.read_csv("adult.csv")
+df = data.copy()
 analizar = DataAnalyzer(data)
 
 def informacion():
@@ -38,6 +39,21 @@ def mostrar_categorico():
             img = analizar.categorical_analisis_col(sel)
             mostrar_imagenes(img)
 
+def añadir_usuario():
+    cols = analizar.df.columns.tolist()
+    usuario = {}
+    for i in cols:
+        añadir = simpledialog.askstring("Añadir info" , f"Digita tu informacion de {i}: ")
+        if añadir:
+            usuario[i] = añadir
+        else:
+            messagebox.showwarning("Atencion", "No ingreso nada")
+
+    df.loc[len(df)] = usuario
+    df.to_csv("Nuevos_usuarios.csv", index = False)
+    print(df.tail())
+
+
 ventana = tk.Tk()
 ventana.title("Analisis de datos")
 
@@ -49,6 +65,9 @@ boton_summary.grid(row=0, column=1)
 
 boton_summary = tk.Button(ventana, text= "Categorico", command =mostrar_categorico)
 boton_summary.grid(row=0, column=2)
+
+boton_summary = tk.Button(ventana,text = "Añadir", command = añadir_usuario)
+boton_summary.grid(row=0, column =3)
 
 text_area = tk.scrolledtext.ScrolledText(ventana, width = 70, height=30)
 
